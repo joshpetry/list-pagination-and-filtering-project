@@ -6,11 +6,7 @@ const studentList = document.querySelector('.student-list');
 const students = Array.prototype.slice.call(document.querySelectorAll('.student-item.cf'));
 const numberOfPages = Math.ceil(students.length / 10);
 
-// students 0 - 9 = iboya vat - connor taylor
-// students 10 - 19 = aymeric morel - florent gerard
-//students 20 - 29 = amber chen - emily harrison
-
-// Shows student records for page selected
+// Shows selected page
 function showPage(pageNumber) {
   // Default visibleRecords slice range
   let lowRange = 0;
@@ -32,31 +28,35 @@ function showPage(pageNumber) {
   }
 }
 
+// Show page 1 on page load
 showPage(1);
 
-// Generates and appends pagination buttons
-
 function appendPageLinks(pages) {
+  // Generate and append page links
   const pagination = document.createElement("DIV");
   pagination.className = 'pagination';
   const ul = document.createElement("UL");
   for ( let i = 1; i <= pages; i++) {
     let li = document.createElement("LI");
-    li.innerHTML = `<a onclick="showPage(${i})">${i}</a>`;
+    li.innerHTML = `<a>${i}</a>`;
     ul.appendChild(li);
   }
   pagination.appendChild(ul);
   studentList.parentNode.insertBefore(pagination, studentList.nextSibling);
+
+  // Page link functionality
+  const a = ul.querySelectorAll('a');
+  a[0].className = 'active';
+  ul.addEventListener('click', (e) => {
+    // Reset active class for pagination buttons
+    for ( let i = 0; i < a.length; i++ ) {
+      a[i].className = '';
+    }
+    // Show selected page
+    e.target.onclick = showPage(e.target.textContent);
+    e.target.className = 'active';
+  });
+
 }
 
 appendPageLinks(numberOfPages);
-/***
-// Pagination example code
-
-<div class="pagination">
-  <ul>
-    <li><a href="">1</a></li>
-    <li><a href="">2</a></li>
-  </ul>
-</div>
-*/
