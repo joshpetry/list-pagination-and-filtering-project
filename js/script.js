@@ -2,7 +2,7 @@
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
-
+const studentList = document.querySelector('.student-list');
 const students = Array.prototype.slice.call(document.querySelectorAll('.student-item.cf'));
 const numberOfPages = Math.ceil(students.length / 10);
 
@@ -34,11 +34,22 @@ function showPage(pageNumber) {
 
 showPage(1);
 
-/***
-   Create the `appendPageLinks function` to generate, append, and add
-   functionality to the pagination buttons.
-***/
+// Generates and appends pagination buttons
 
+function appendPageLinks(pages) {
+  const pagination = document.createElement("DIV");
+  pagination.className = 'pagination';
+  const ul = document.createElement("UL");
+  for ( let i = 1; i <= pages; i++) {
+    let li = document.createElement("LI");
+    li.innerHTML = `<a onclick="showPage(${i})">${i}</a>`;
+    ul.appendChild(li);
+  }
+  pagination.appendChild(ul);
+  studentList.parentNode.insertBefore(pagination, studentList.nextSibling);
+}
+
+appendPageLinks(numberOfPages);
 /***
 // Pagination example code
 
